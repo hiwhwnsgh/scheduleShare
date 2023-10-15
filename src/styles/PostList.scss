@@ -1,0 +1,26 @@
+.listItem{
+    div {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+        
+        &:first-child{
+            padding-top: 0;
+        }
+        & + & {
+            border-top: 1px soild #868e96;
+        }
+        h4{
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-bottom: 0;
+            margin-top: 0;
+            &:hover {
+                color: #868e96
+            }
+        }
+        p{
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+    }
+}

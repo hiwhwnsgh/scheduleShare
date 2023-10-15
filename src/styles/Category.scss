@@ -1,0 +1,32 @@
+.Block{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+    
+}
+.Child{
+    font-size: 1.125rem;
+    cursor: pointer;
+    white-space: pre;
+    text-decoration: none;
+    color:black;
+    padding-bottom: 0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+    &:hover{
+        color: #495057;
+    }
+    & + & {
+        margin-left: 1rem
+    }
+}
+.Selected{
+    font-weight: 600;
+    border-bottom: 2px solid #227aee;
+    color: #227aee;
+    &:hover{
+        color: hsl(236, 88%, 59%)
+    }
+}

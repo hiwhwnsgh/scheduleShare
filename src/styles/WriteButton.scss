@@ -1,0 +1,11 @@
+.styledDiv{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ccc;
+  border: 1px solid #ccc;
+  /* 클래스 이름을 "button" 대신 "btn"으로 변경 */
+  .btn {
+      margin: 5px;
+  }
+}
