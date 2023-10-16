@@ -68,7 +68,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080",
   "devDependencies": {
     "babel-loader": "^9.1.3",
     "css-loader": "^6.8.1",

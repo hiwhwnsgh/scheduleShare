@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '../../styles/Calender.scss'; // SCSS 파일 import
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {DotLoader} from 'react-spinners';
 import axios from 'axios';
 import Modal from 'react-modal';
@@ -9,9 +9,8 @@ import Tags from '../common/Tags';
 import BigCalender from '../common/BigCalendar';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { setUser } from '../../store/userSlice';
-import { login } from '../../store/authSlice';
 import useAuthEffect from '../../utils/auth';
+import { URL_BackEnd } from '../../utils/constants';
 
 
 const customStyles = {
@@ -56,7 +55,6 @@ const ModalBtn = styled.button`
 Modal.setAppElement('#root'); // 모달이 열릴 때, 화면 리더기에 보이지 않게 하기 위해 필요
 
 function Calendar() {
-  const dispatch = useDispatch();
   const userId = useSelector(state=>state.user.userId);
   const loginId = useSelector(state=>state.user.loginId);
   const [memoList, setMemoList] = useState([]); // 메모 데이터를 저장할 상태
@@ -110,7 +108,7 @@ function Calendar() {
   //  style={{ backgroundColor: getMemoItemColor(memoItem, 0.6) }}
   useEffect(()=>{
     if(userId){
-      axios.get(`/schedule/${userId}`).then(response=>{
+      axios.get(`http://${URL_BackEnd}/schedule/${userId}`).then(response=>{
         const posts = response.data;
         setMemoList(posts.map((post) => ({
           id: post.id,

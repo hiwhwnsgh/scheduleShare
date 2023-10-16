@@ -5,12 +5,13 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { setUser } from '../store/userSlice';
 import { login } from '../store/authSlice';
+import { URL_BackEnd } from './constants';
 
 function useAuthEffect() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem('authToken') !== null) {
-      axios.get('/info', {
+      axios.get(`http://${URL_BackEnd}/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`
         }

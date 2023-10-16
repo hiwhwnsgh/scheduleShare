@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../styles/Modal.scss';
 import Modal from 'react-modal';
+import { URL_BackEnd } from '../../utils/constants';
 
 
 const customStyles = {
@@ -50,7 +51,7 @@ const Register = () => {
             setModalText('빈칸이 존재합니다.');
             return;
         }
-        axios.post("/register",{loginId,name,nickname,password,passwordCheck}).then(response=>{
+        axios.post(`http://${URL_BackEnd}/register`,{loginId,name,nickname,password,passwordCheck}).then(response=>{
             const data = response.data;
             if(data==='로그인 아이디가 중복됩니다.' || data === '닉네임이 중복됩니다.' || data ==='비밀번호가 일치하지 않습니다.'){
                 setModalIsOpen(true);

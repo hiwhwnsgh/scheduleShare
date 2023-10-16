@@ -7,6 +7,7 @@ import '../../styles/Chat.scss';
 import { MdSend } from "react-icons/md";
 import {DotLoader} from 'react-spinners';
 import axios from 'axios';
+import { URL_BackEnd } from '../../utils/constants';
 
 const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -30,14 +31,14 @@ const ChatComponent = () => {
     }
   }, []);
   useEffect(()=>{
-    axios.get(`/chat/messages?loginId=${loginId}&page=${page}`).then(response=>{  
+    axios.get(`http://${URL_BackEnd}/chat/messages?loginId=${loginId}&page=${page}`).then(response=>{  
       setMessages(response.data);
     }).catch(error=>{
       console.log(error)
     })
   },[])
   useEffect(() => {
-    const serverUrl = '/chat';
+    const serverUrl = `http://${URL_BackEnd}/chat`;
 
     const initializeStompClient = () =>{
       const socket = new SockJS(serverUrl);
@@ -48,6 +49,7 @@ const ChatComponent = () => {
         (frame) => {
           client.subscribe(`/topic/${page}`, (e) => {
             const newMessage = JSON.parse(e.body);
+            console.log(newMessage);
             showMessage(newMessage);
           });
           setIsSubcribe(true);

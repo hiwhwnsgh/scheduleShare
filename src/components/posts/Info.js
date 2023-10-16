@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import Tags from '../common/Tags';
 import Pagination from 'react-js-pagination';
+import { URL_BackEnd } from '../../utils/constants';
 
 const StyledDiv = styled.div`
     display: flex;
@@ -41,7 +42,7 @@ const Info = () =>{
         navigate(`/info/${loginId}/?page=${page}`)
       };
     useEffect(() => {
-    axios.get(`/info/${loginId}`).then(response => {
+    axios.get(`http://${URL_BackEnd}/info/${loginId}`).then(response => {
         setPost(response.data);
     }).catch(error => {
         console.log(error);
@@ -52,7 +53,7 @@ const Info = () =>{
             setSelectedPostId(null);
         } else {
             setSelectedPostId(postId);
-            axios.get(`/info/${loginId}/${postId}`).then(response=>{
+            axios.get(`http://${URL_BackEnd}/info/${loginId}/${postId}`).then(response=>{
                 setUsers(response.data);
             }).catch(error=>{
                 console.log(error);
@@ -62,7 +63,7 @@ const Info = () =>{
     };
     const handleAccept = useCallback((postId, userId) => {
         // 수락 버튼 클릭 시 서버로 요청을 보냅니다.
-        axios.put('/info/acceptRequest', { postId, userId }) // postId와 userId를 적절한 값으로 대체
+        axios.put(`http://${URL_BackEnd}/info/acceptRequest`, { postId, userId }) // postId와 userId를 적절한 값으로 대체
             .then((response) => {
                 toggleSelectedPost(postId);
                 
@@ -74,7 +75,7 @@ const Info = () =>{
     
     const handleReject = useCallback((postId, userId) => {
         // 거절 버튼 클릭 시 서버로 요청을 보냅니다.
-        axios.put('/info/rejectRequest',  { postId, userId }) // postId와 userId를 적절한 값으로 대체
+        axios.put(`http://${URL_BackEnd}/info/rejectRequest`,  { postId, userId }) // postId와 userId를 적절한 값으로 대체
             .then((response) => {
                 toggleSelectedPost(postId);
             })

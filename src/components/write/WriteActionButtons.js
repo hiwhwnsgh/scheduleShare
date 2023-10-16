@@ -6,10 +6,8 @@ import { setContentInputValue, setTitleInputValue } from "../../store/reducers";
 import { setEndDate, setStartDate } from "../../store/dateReducers";
 import { clearTags } from "../../store/tagSlice";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { setUser } from "../../store/userSlice";
-import { login } from "../../store/authSlice";
 import useAuthEffect from "../../utils/auth";
+import { URL_BackEnd } from "../../utils/constants";
 
 const WriteActionButtonBlock = styled.div`
     display: flex;
@@ -57,7 +55,7 @@ const WriteActionButtons =()=>{
 
     const onClick = () =>{ 
         const currentdate = new Date();
-        axios.post('/postInsert', { contentInput,titleInput,startDate,endDate,tags,currentdate,userId })
+        axios.post(`http://${URL_BackEnd}/postInsert`, { contentInput,titleInput,startDate,endDate,tags,currentdate,userId })
         .then(response => {
             // POST 요청이 성공한 경우 처리
         })
@@ -73,7 +71,6 @@ const WriteActionButtons =()=>{
             dispatch(setEndDate(''));
             dispatch(clearTags()); // 태그 필드 초기화
         });
-        console.log(startDate);
     };
     return(
         <WriteActionButtonBlock>

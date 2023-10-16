@@ -9,7 +9,7 @@ import {setTitleInputValue } from '../store/reducers';
 import {setStartDate,setEndDate } from '../store/dateReducers';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { MdDomainVerification,MdRemove } from "react-icons/md";
+import { MdDomainVerification } from "react-icons/md";
 
 
 
@@ -81,10 +81,7 @@ const WritePostPage = () =>{
                     
                     <div>
                         <MdDomainVerification style={{ fontSize: "25px" }} />
-                        <CustomDatePicker selected={startDate} onChange={handleStartDateChange} placeholder="시작일" />
-                        </div>
-                        <div>
-                        <MdRemove />
+                        <CustomDatePicker selected={startDate} onChange={handleStartDateChange} placeholderText="시작일" />
                         </div>
                         <div>
                         <MdDomainVerification style={{ fontSize: "25px" }} />

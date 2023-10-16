@@ -3,15 +3,16 @@ import PostList from "../components/posts/PostList";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser, setUser } from "../store/userSlice";
+import { clearUser } from "../store/userSlice";
 import { useEffect, useState } from "react";
 import '../styles/Paging.scss';
 import Pagination from "react-js-pagination";
-import { login, logout } from "../store/authSlice";
+import {  logout } from "../store/authSlice";
 import '../styles/WriteButton.scss';
 import Modal from 'react-modal';
 import { DotLoader } from "react-spinners";
 import useAuthEffect from "../utils/auth";
+import { URL_BackEnd } from "../utils/constants";
 
 const customStyles = {
     content: {
@@ -63,7 +64,7 @@ const PostPage = () => {
     const handleLogout = () =>{
         dispatch(clearUser());
         dispatch(logout());
-        localStorage.setItem('authToken','');
+        localStorage.setItem('authToken',null);
     }
     const closeModal = () => {
         setModalIsOpen(false);
@@ -85,18 +86,19 @@ const PostPage = () => {
     const [postList,setPostList] = useState([]);
     
     useEffect(()=>{
-        axios.get(`/community`)
+        axios.get(`http://${URL_BackEnd}/community`)
         .then((response)=>{
             setPostList(response.data);
             setIsCommunity(true);
         }).catch(error=>{
             console.log(error);
         })
-    },[]);
+    },[dispatch]);
     const indexOfLastPost = activePage * itemsPerPage;
     const indexOfFirstPost = indexOfLastPost - itemsPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);
     const totalItemsCount = postList.length;
+
 
     return(
         <div>
@@ -141,7 +143,6 @@ const PostPage = () => {
                 
 
             }
-            
             <Pagination
                 activePage={activePage}
                 itemsCountPerPage={itemsPerPage}

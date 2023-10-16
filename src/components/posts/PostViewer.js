@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {DotLoader} from 'react-spinners';
 import Modal from 'react-modal';
+import { URL_BackEnd } from "../../utils/constants";
 
 const customStyles = {
     content: {
@@ -100,16 +101,20 @@ const PostViewer = () => {
     const [isCheck,setIsCheck] = useState(true);
     const [Participation,setParticipation] = useState();
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    
     const navigate = useNavigate();
     const loginId = useSelector(state=>state.user.loginId);
     const nickname = useSelector(state=>state.user.nickname);
     const isLogined = useSelector(state=>!state.auth.token);
+    const formatDate = ( date )=>{
+        return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`; // 브라우저의 로캘에 따른 형식
+    }
     const closeModal = () => {
         setModalIsOpen(false);
         navigate(-1);
     };
     const handleClickApplication = async () =>{
-        axios.post(`/post/${id}/${loginId}`).then(response=>{
+        axios.post(`http://${URL_BackEnd}/post/${id}/${loginId}`).then(response=>{
             setModalIsOpen(true);
             setParticipation(response.data);
         }).catch(error => {
@@ -124,10 +129,21 @@ const PostViewer = () => {
     
     useEffect(() => {
         axios
-          .get(`/post/${id}`)
+          .get(`http://${URL_BackEnd}/post/${id}`)
           .then((response) => {
             setLoading(false);
-            setData(response.data);
+            const data = response.data;
+            setData({
+                id: data.id,
+                title: data.title,
+                content : data.content,
+                nickname : data.nickname,
+                registrationDate : formatDate(new Date(data.registrationDate)),
+                startDate : formatDate(new Date(data.startDate)),
+                endDate : formatDate(new Date(data.endDate)),
+                tags : data.tags,
+            });
+            
             if (nickname === response.data.nickname) {
               setIsCheck(false);
             }
@@ -154,12 +170,16 @@ const PostViewer = () => {
                          <p>
                              <b>{data.nickname}</b>
                          </p>
-                         <span>{data.registrationDate}</span>
+                         <div>
+                            <span>개설일 : </span>
+                            <span>{data.registrationDate}</span>
+                         </div>
                      </SubInfo>
                      <div>
-                         <span>{data.startDate}</span>
-                         <span>~</span>
-                         <span>{data.endDate}</span>
+                        <span>기간 : </span>
+                        <span>{data.startDate}</span>
+                        <span>~</span>
+                        <span>{data.endDate}</span>
                      </div>
                      
                      <Tags>
