@@ -13,6 +13,7 @@ import Modal from 'react-modal';
 import { DotLoader } from "react-spinners";
 import useAuthEffect from "../utils/auth";
 import { URL_BackEnd } from "../utils/constants";
+import { unCheck } from "../store/WriteactionButton";
 
 const customStyles = {
     content: {
@@ -51,12 +52,14 @@ const WritePostDiv = styled.div`
 `;
 const PostPage = () => {
     const isLogin = useSelector((state)=>!!state.auth.token);
+    const isCheck = useSelector(state=> state.write.isAction);
     const [activePage, setActivePage] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const loginId = useSelector(state=>state.user.loginId);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isCommunity,setIsCommunity] = useState(false);
+    
     const handlePageChange = (page) => {
         setActivePage(page);
         navigate(`/community?page=${page}`)
@@ -90,10 +93,11 @@ const PostPage = () => {
         .then((response)=>{
             setPostList(response.data);
             setIsCommunity(true);
+            dispatch(unCheck());
         }).catch(error=>{
             console.log(error);
         })
-    },[dispatch]);
+    },[isCheck]);
     const indexOfLastPost = activePage * itemsPerPage;
     const indexOfFirstPost = indexOfLastPost - itemsPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);

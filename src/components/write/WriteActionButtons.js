@@ -8,6 +8,7 @@ import { clearTags } from "../../store/tagSlice";
 import { Link } from "react-router-dom";
 import useAuthEffect from "../../utils/auth";
 import { URL_BackEnd } from "../../utils/constants";
+import { check } from "../../store/WriteactionButton";
 
 const WriteActionButtonBlock = styled.div`
     display: flex;
@@ -58,6 +59,7 @@ const WriteActionButtons =()=>{
         axios.post(`http://${URL_BackEnd}/postInsert`, { contentInput,titleInput,startDate,endDate,tags,currentdate,userId })
         .then(response => {
             // POST 요청이 성공한 경우 처리
+            dispatch(check(true));
         })
         .catch(error => {
             // 오류 처리

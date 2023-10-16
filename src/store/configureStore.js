@@ -4,6 +4,7 @@ import dateReducer from './dateReducers';
 import tagsReducer from './tagSlice';
 import authReducer from './authSlice';
 import userReducer from './userSlice';
+import writeReducer from './WriteactionButton';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     tags : tagsReducer,
     auth : authReducer,
     user : userReducer,
+    write : writeReducer,
   },
    middleware: getDefaultMiddleware({
      serializableCheck: false,
