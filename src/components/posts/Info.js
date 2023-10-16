@@ -35,17 +35,18 @@ const Info = () =>{
     const indexOfFirstPost = indexOfLastPost - itemsPerPage;
     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
     const totalItemsCount = posts.length;
+
     const handlePageChange = (page) => {
         setActivePage(page);
         navigate(`/info/${loginId}/?page=${page}`)
       };
-      useEffect(() => {
-        axios.get(`/info/${loginId}`).then(response => {
-            setPost(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
-    }, [loginId]);
+    useEffect(() => {
+    axios.get(`/info/${loginId}`).then(response => {
+        setPost(response.data);
+    }).catch(error => {
+        console.log(error);
+    });
+}, [loginId]);
     const toggleSelectedPost = (postId) => {
         if (selectedPostId === postId) {
             setSelectedPostId(null);

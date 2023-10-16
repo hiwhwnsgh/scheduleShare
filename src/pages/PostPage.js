@@ -7,10 +7,11 @@ import { clearUser, setUser } from "../store/userSlice";
 import { useEffect, useState } from "react";
 import '../styles/Paging.scss';
 import Pagination from "react-js-pagination";
-import { logout } from "../store/authSlice";
+import { login, logout } from "../store/authSlice";
 import '../styles/WriteButton.scss';
 import Modal from 'react-modal';
 import { DotLoader } from "react-spinners";
+import useAuthEffect from "../utils/auth";
 
 const customStyles = {
     content: {
@@ -49,11 +50,10 @@ const WritePostDiv = styled.div`
 `;
 const PostPage = () => {
     const isLogin = useSelector((state)=>!!state.auth.token);
-    const userToken = useSelector((state)=>state.auth.token);
     const [activePage, setActivePage] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const loginId = useSelector(state=>state.user.loginId)
+    const loginId = useSelector(state=>state.user.loginId);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isCommunity,setIsCommunity] = useState(false);
     const handlePageChange = (page) => {
@@ -63,6 +63,7 @@ const PostPage = () => {
     const handleLogout = () =>{
         dispatch(clearUser());
         dispatch(logout());
+        localStorage.setItem('authToken','');
     }
     const closeModal = () => {
         setModalIsOpen(false);
@@ -75,31 +76,8 @@ const PostPage = () => {
             setModalIsOpen(true);
         }
     }
-    const fetchData = () => {
-        axios.get(`/community`)
-          .then((response) => {
-            setPostList(response.data);
-            setIsCommunity(true);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-    };
-    useEffect(() => {
-        if (userToken !== null) {
-          axios.get('/info', {
-            headers: {
-              Authorization: `Bearer ${userToken}`
-            }
-          })
-          .then(response => {
-            dispatch(setUser(response.data));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        }
-      }, [dispatch, userToken]);
+
+    useAuthEffect();
       
 
     const [itemsPerPage] = useState(10); // 페이지당 아이템 수
@@ -115,19 +93,6 @@ const PostPage = () => {
             console.log(error);
         })
     },[]);
-    
-      
-    
-    // useEffect(() => {
-    //     axios.get(`/community/${activePage}/${itemsPerPage}`)
-    //     .then((response) => {    
-    //         setPostList(response.data.content); // 게시글 목록을 상태에 저장
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-    // }, []); // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행
-    // 현재 페이지의 게시글 목록 계산
     const indexOfLastPost = activePage * itemsPerPage;
     const indexOfFirstPost = indexOfLastPost - itemsPerPage;
     const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost);

@@ -40,6 +40,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleLogin = async() => {
     await axios.post('/login', { loginId, password }).then(response=>{
       // 로그인 성공 후 리다이렉트 또는 상태 업데이트 등을 수행
@@ -48,6 +49,7 @@ function Login() {
         setModalIsOpen(true);
         return;
       }
+      localStorage.setItem('authToken', data);
       dispatch(login(data));
       navigate('/community');
     }).catch(error=>{
