@@ -34,7 +34,7 @@ const ChatComponent = () => {
     axios.get(`http://${URL_BackEnd}/chat/messages?loginId=${loginId}&page=${page}`).then(response=>{  
       setMessages(response.data);
     }).catch(error=>{
-      console.log(error)
+
     })
   },[])
   useEffect(() => {
@@ -49,14 +49,12 @@ const ChatComponent = () => {
         (frame) => {
           client.subscribe(`/topic/${page}`, (e) => {
             const newMessage = JSON.parse(e.body);
-            console.log(newMessage);
             showMessage(newMessage);
           });
           setIsSubcribe(true);
           setStompClient(client);
         },
         (error) => {
-          console.log(error);
           // 재시도 로직 추가
           setTimeout(() => {
             initializeStompClient();
