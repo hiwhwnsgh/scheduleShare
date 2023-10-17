@@ -25,7 +25,8 @@ const App = () => {
     
 
     return (
-        <div>
+        <div style={{background:'#525252',height:'100vh',display:'flex',justifyContent:'center'}}>
+            <div style={{background:'#fff',height:'100vh',width:'65%'}}>
             <Routes>
                 <Route element={<Categories category={category} onSelect={onSelect}/>}>
                     <Route path='/' element={<PostPage/>}></Route>
@@ -41,6 +42,7 @@ const App = () => {
                 </Route>
                 
             </Routes>
+            </div>
             
         </div>
 

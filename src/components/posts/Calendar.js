@@ -8,36 +8,12 @@ import Tags from '../common/Tags';
 //import { MdArrowBack,MdArrowForward } from "react-icons/md";
 import BigCalender from '../common/BigCalendar';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthEffect from '../../utils/auth';
 import { URL_BackEnd } from '../../utils/constants';
 
 
-const customStyles = {
-  content: {
-    width: "360px",
-    height: "250px",
-    zIndex: "150",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "10px",
-    boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
-    backgroundColor: "white",
-    justifyContent: "center",
-    overflow: "auto",
-  },
-  overlay: {
-    backgroundColor: " rgba(0, 0, 0, 0.4)",
-    width: "100%",
-    height: "100vh",
-    zIndex: "10",
-    position: "fixed",
-    top: "0",
-    left: "0",
-  },
-};
+
 const ModalWindow = styled.div`
   height: "250px"
   overflow-y: scroll;
@@ -58,9 +34,48 @@ function Calendar() {
   const userId = useSelector(state=>state.user.userId);
   const loginId = useSelector(state=>state.user.loginId);
   const [memoList, setMemoList] = useState([]); // 메모 데이터를 저장할 상태
+  const [modalHeight, setModalHeight] = useState("100px"); // 초기 높이
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loginIsOpen,setLoginIsOpen] = useState(false);
   const [selectedMemo, setSelectedMemo] = useState(null); // 선택한 메모의 상태
   const [isUpload,setIsUpload] = useState(false);
+  const navigate = useNavigate();
+  let location = useLocation();
+  location = location.pathname.split('/');
+  location = location[location.length-1];
+  
+  const customStyles = {
+    content: {
+      width: "360px",
+      height: modalHeight,
+      zIndex: "150",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "white",
+      justifyContent: "center",
+      overflow: "auto",
+    },
+    overlay: {
+      backgroundColor: " rgba(0, 0, 0, 0.4)",
+      width: "100%",
+      height: "100vh",
+      zIndex: "10",
+      position: "fixed",
+      top: "0",
+      left: "0",
+    },
+  };
+
+  useEffect(()=>{
+    if(location==='null'){
+      setLoginIsOpen(true);
+    }
+  },[])
+  
   const options = {
     year: 'numeric',
     month: 'long',
@@ -73,6 +88,10 @@ function Calendar() {
     setModalIsOpen(true);
     setSelectedMemo(memo); // 선택한 메모를 설정
   };
+  const handleCancel = () => {
+    setLoginIsOpen(false);
+    navigate('/community');
+  }
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -120,6 +139,7 @@ function Calendar() {
           color : getMemoItemColor(post,0.6)
         })));
         setIsUpload(true);
+        setModalHeight('300px');
       }).catch(error=>{
         console.log(error)
       })
@@ -127,6 +147,21 @@ function Calendar() {
   },[getMemoItemColor, userId])
 return (
   <div>
+    { loginIsOpen &&
+      <div>
+        <Modal
+        isOpen={loginIsOpen}
+        onRequestClose={handleCancel}
+        style={customStyles}
+        contentLabel="모달"
+        >
+        <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+          <h3>로그인 먼저 해주세요</h3>
+          <ModalBtn onClick={handleCancel}>닫기</ModalBtn>
+        </div>
+      </Modal>
+      </div>
+    }
     {
       !isUpload ?
         <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',height:'750px'}}>

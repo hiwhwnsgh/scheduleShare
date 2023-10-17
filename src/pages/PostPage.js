@@ -105,7 +105,7 @@ const PostPage = () => {
 
 
     return(
-        <div>
+        <div >
             <WritePostDiv>
             {
                 loginId ? 
