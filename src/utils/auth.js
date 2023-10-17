@@ -10,7 +10,7 @@ import { URL_BackEnd } from './constants';
 function useAuthEffect() {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (localStorage.getItem('authToken') !== null) {
+    if (localStorage.getItem('authToken') !== 'null') {
       axios.get(`http://${URL_BackEnd}/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`
