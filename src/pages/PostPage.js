@@ -60,6 +60,7 @@ const PostPage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isCommunity,setIsCommunity] = useState(false);
     
+    
     const handlePageChange = (page) => {
         setActivePage(page);
         navigate(`/community?page=${page}`)
@@ -114,6 +115,30 @@ const PostPage = () => {
                 <button onClick={handleWriteClick}>작성하기</button>
             }
             {
+                loginId ? 
+                <button onClick={handleLogout}>로그아웃</button>
+                :
+                <Link to={'/login'}><button>로그인</button></Link>
+            }
+            {
+                loginId ?
+                <Link to={`/info/${loginId}`}><button>내 게시글 목록</button></Link>
+                :
+                <button onClick={handleWriteClick}>내 게시글 목록</button>
+            }
+            </WritePostDiv>
+            {isCommunity ? 
+                <div style={{display:"flex",justifyContent:"center"}}>
+                    <PostList postList={currentPosts}/>
+                </div>
+                :
+                <div style={{display:"flex",justifyContent:"center",alignItems:'center',width:'100%',height:'650px'}}>
+                    <DotLoader color="#36d7b7" speedMultiplier="2"/>
+                </div>
+                
+
+            }
+            {
                 !isLogin && 
                 <Modal
                     isOpen={modalIsOpen}
@@ -126,26 +151,6 @@ const PostPage = () => {
                     <button style={{marginTop:"3.5rem"}}onClick={closeModal}>닫기</button>
                     </div>
                 </Modal>
-            }
-            {
-                loginId ? 
-                <button onClick={handleLogout}>로그아웃</button>
-                :
-                <Link to={'/login'}><button>로그인</button></Link>
-            }
-            
-            <Link to={`/info/${loginId}`}><button>내 게시글 목록</button></Link>
-            </WritePostDiv>
-            {isCommunity ? 
-                <div style={{display:"flex",justifyContent:"center"}}>
-                    <PostList postList={currentPosts}/>
-                </div>
-                :
-                <div style={{display:"flex",justifyContent:"center",alignItems:'center',width:'100%',height:'650px'}}>
-                    <DotLoader color="#36d7b7" speedMultiplier="2"/>
-                </div>
-                
-
             }
             <Pagination
                 activePage={activePage}

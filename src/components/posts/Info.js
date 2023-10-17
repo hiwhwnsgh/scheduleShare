@@ -36,6 +36,12 @@ const Info = () =>{
     const indexOfFirstPost = indexOfLastPost - itemsPerPage;
     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
     const totalItemsCount = posts.length;
+    const formatDate = ( date )=>{
+        const newDate = new Date(date);
+        return `${newDate.getFullYear()}.${(newDate.getMonth() + 1).toString().padStart(2, '0')}.${newDate.getDate().toString().padStart(2, '0')}`; // 브라우저의 로캘에 따른 형식
+    }
+    
+    
 
     const handlePageChange = (page) => {
         setActivePage(page);
@@ -93,7 +99,7 @@ const Info = () =>{
                             <div className='listItem' >
                                 <h2>{post.title}</h2>
                                 <SubInfo username={post.nickname} publishedDate={post.registrationDate}/>
-                                <span>시작일 : {post.startDate} ~ 종료일 : {post.endDate}</span>
+                                <span>시작일 : {formatDate(post.startDate)} ~ 종료일 : {formatDate(post.endDate)}</span>
                                 <Tags tags={post.tags}></Tags>
                             </div>   
                             <hr/>
