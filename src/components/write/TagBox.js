@@ -112,6 +112,7 @@ const TagBox = () => {
           <input
             placeholder="태그를 입력하세요"
             value={input}
+            autoComplete="off"
             onChange={onChange}
             id="tag"
           />

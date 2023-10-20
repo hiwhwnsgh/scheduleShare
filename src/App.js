@@ -25,8 +25,8 @@ const App = () => {
     
 
     return (
-        <div style={{background:'#525252',height:'100vh',display:'flex',justifyContent:'center'}}>
-            <div style={{background:'#fff',height:'100vh',width:'65%'}}>
+        <div style={{background:'#525252',minHeight:'100vh',display:'flex',justifyContent:'center'}}> 
+            <div style={{background:'#fff',width:'65%'}}>
             <Routes>
                 <Route element={<Categories category={category} onSelect={onSelect}/>}>
                     <Route path='/' element={<PostPage/>}></Route>

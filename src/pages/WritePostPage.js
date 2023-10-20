@@ -42,7 +42,7 @@ const StyledDiv = styled.div`
 const CustomDatePicker = styled(DatePicker)`
     padding:0.5rem;
     outline: none;
-    width:15rem;
+    width:11.5rem;
     overflow: hidden;
     border-radius: 4px;
     border: 1px solid ${palette.gray[9]};
@@ -71,30 +71,29 @@ const WritePostPage = () =>{
       };
     
     return(
-        <div >
-            <div style={{display:"flex",justifyContent:"center"}}>
-                <div style={{display:"flex",flexDirection:"column",width:"45%"}}>
-                    <StyledLabel htmlFor="title">제목</StyledLabel>
-                    
-                    <StyledInput type="text" id="title"  value={titleinput} onChange={handleTitleInputChange} placeholder="제목을 입력해주세요."></StyledInput>
-                    <StyledDiv>
-                    
-                    <div>
-                        <MdDomainVerification style={{ fontSize: "25px" }} />
-                        <CustomDatePicker selected={startDate} onChange={handleStartDateChange} placeholderText="시작일" />
-                        </div>
-                        <div>
-                        <MdDomainVerification style={{ fontSize: "25px" }} />
-                        <CustomDatePicker selected={endDate} onChange={handleEndDateChange} placeholderText="종료일" />
-                    </div>
 
-                    </StyledDiv>
-                    <TagBox/>
-                    <StyledLabel>본문</StyledLabel>
-                    <TextEditorForm></TextEditorForm>
-                    
-                    <WriteActionButtons></WriteActionButtons>
+        <div style={{display:"flex",justifyContent:"center",}}>
+            <div style={{display:"flex",flexDirection:"column",width:"45%"}}>
+                <StyledLabel htmlFor="title">제목</StyledLabel>
+                
+                <StyledInput type="text" id="title"  value={titleinput} onChange={handleTitleInputChange} placeholder="제목을 입력해주세요."></StyledInput>
+                <StyledDiv>
+                
+                <div>
+                    <MdDomainVerification style={{ fontSize: "25px" }} />
+                    <CustomDatePicker selected={startDate} onChange={handleStartDateChange} placeholderText="시작일" />
+                    </div>
+                    <div>
+                    <MdDomainVerification style={{ fontSize: "25px" }} />
+                    <CustomDatePicker selected={endDate} onChange={handleEndDateChange} placeholderText="종료일" />
                 </div>
+
+                </StyledDiv>
+                <TagBox/>
+                <StyledLabel>본문</StyledLabel>
+                <TextEditorForm></TextEditorForm>
+                
+                <WriteActionButtons></WriteActionButtons>
             </div>
         </div>
     )

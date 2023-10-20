@@ -89,9 +89,7 @@ const Tags = styled.div`
 `
 
 const PostContent = styled.div`
-    font-size: 1.3125rem;
     color: ${palette.gray[8]};
-    height: 500px;
 `
 
 const PostViewer = () => {
@@ -193,7 +191,7 @@ const PostViewer = () => {
                  {
                      isCheck && 
                      <div>
-                        <div style={{display:"flex",justifyContent:"flex-end"}}>
+                        <div style={{display:"flex",justifyContent:"flex-end",margin : '2rem 0 2rem'}}>
                             <button style={{padding:"10px",paddingLeft:"4rem",paddingRight:"4rem",fontSize:"16px"}} onClick={handleClickApplication}>참가</button>
                             <button style={{padding:"10px",paddingLeft:"4rem",paddingRight:"4rem",background:"#9b9a9a",fontSize:"16px"}} onClick={handleClickCancle}>취소</button>
                         </div>
